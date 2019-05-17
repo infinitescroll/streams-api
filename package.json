@@ -1,0 +1,19 @@
+{
+  "name": "streams-api",
+  "version": "0.0.1",
+  "description": "A service for managing javascript textile operations",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/openworklabs/streams-api.git"
+  },
+  "author": "openworklabs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/openworklabs/streams-api/issues"
+  },
+  "homepage": "https://github.com/openworklabs/streams-api#readme"
+}
