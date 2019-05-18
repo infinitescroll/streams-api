@@ -6,7 +6,8 @@
   "scripts": {
     "build": "babel src -d dist -s",
     "clean": "rm -rf node_modules && rm package-lock.json",
-    "test": "jest"
+    "examples": "npm run build && node dist/examples.js",
+    "test": "npm run build && jest"
   },
   "repository": {
     "type": "git",

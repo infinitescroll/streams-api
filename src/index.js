@@ -1,1 +1,1 @@
-export { default as Stream } from './api'
+export { default as StreamAPI } from './api'

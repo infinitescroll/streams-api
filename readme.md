@@ -49,6 +49,8 @@ The default config is your local textile node.
 
 ## Create a Stream:
 
+Note - this is very simple on purpose - because this api interface will not have to change when the [new role based](https://github.com/textileio/go-textile/issues/694) thread access control is implemented
+
 ```js
 const newStream = await streamAPI.createStream(streamName, streamType)
 ```
