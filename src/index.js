@@ -1,15 +1,4 @@
-const delay = () =>
-  new Promise(resolve => {
-    setTimeout(() => {
-      console.log('delayed!')
-      resolve()
-    }, 1000)
-  })
+import Stream from './api'
 
-const test = async () => {
-  await delay()
-}
-
-test()
-
-class StreamsAPI {}
+const stream = new Stream()
+stream.sendMessage()
