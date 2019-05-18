@@ -136,3 +136,23 @@ _params:_
 _returns:_
 
 - an updated stream object (object)
+
+## Subscriptions
+
+The streams API can provide event listeners to hear and react to different types of events
+
+## Developing an application using a local instance of streams-api
+
+As of now, we use a simple babel parser to transpile javascript. There is no hot-module-reloading.
+
+To compile the code:
+
+`npm run build`
+
+Make sure to run this command after every code update to see the change take effect
+
+Use `npm link`
+
+In the root of `streams-api` repository, run `npm link`
+
+In the same level of your directory as your `package.json`, run `npm link streams-api`
