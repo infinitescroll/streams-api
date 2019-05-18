@@ -1,4 +1,4 @@
-import { StreamAPI } from './'
+import StreamAPI from './'
 
 const createStream = async () => {
   const streamAPI = new StreamAPI()

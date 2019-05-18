@@ -1,1 +1,2 @@
-export { default as StreamAPI } from './api'
+import StreamAPI from './api'
+export default StreamAPI

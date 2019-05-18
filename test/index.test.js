@@ -1,6 +1,5 @@
-import { StreamAPI } from '../dist'
+import StreamAPI from '../dist'
 import randomStreamName from './randomStreamName'
-import { mockStream } from './mockObjects'
 
 describe('createStream', () => {
   const { createStream } = new StreamAPI()
