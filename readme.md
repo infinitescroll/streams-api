@@ -53,12 +53,13 @@ Types of streams we support and what they mean:
 - private - only you can read, write, comment, and invite others to the stream. Upon inviting another peer, you can specify what permissions they have.
 - public - Anyone can read and comment, but only invitees can write and invite others
 - shared - permissionless stream (everyone has all capabilities)
+(have to check and make sure this is all possible today)
 
 For simplicity's sake and an initial implementation, here's how the params passed in for streamType align with textile thread sharing permissions down into Textile:
 
-shared ==> _type:_ 'open', _sharing:_ 'shared'
-public ==> _type:_ 'public', _sharing:_ 'invite_only'
-private ==> _type:_ 'private', _sharing:_ 'invite_only'
+shared ==> _type:_ 'open', _sharing:_ 'shared' <br />
+public ==> _type:_ 'public', _sharing:_ 'invite_only' <br />
+private ==> _type:_ 'private', _sharing:_ 'invite_only' <br />
 
 ```js
 const newStream = await streamAPI.createStream(streamName, streamType)
@@ -106,7 +107,7 @@ _returns:_
 #### Get all comments associated with a particular stream event
 
 ```js
-const streamEvents = await streamAPI.getStreamEvents(streamId)
+const streamEvents = await streamAPI.getComments(streamEventId)
 ```
 
 _params:_
@@ -136,6 +137,14 @@ _returns:_
 
 #### Send a message in a stream
 
+The idea here is to pass an object instead of a simple string for a couple reasons:
+
+1. We add more control to what we can do under the hood within the API. For example, we can add `TYPE`s, file pointers, and other things we might not foresee now
+2. It could even include files, which the API parses and adds separately as files blocks to a thread
+3. Easier to make changes without breaking the API
+
+Ideally this `messageObject` can be the same as the `commentObject` (see below)
+
 ```js
 const updatedStream = await streamAPI.sendMessage(streamId, messageObject)
 ```
@@ -151,13 +160,15 @@ _returns:_
 
 #### Add a new comment to a stream event
 
+Ideally this `commentObject` can be identical to the `messageObject` above. This allows for easy type checking and consistency in parsing these types of blocks
+
 ```js
-const updatedStream = await streamAPI.sendMessage(streamId, messageObject)
+const updatedStream = await streamAPI.addComment(streamEventId, commentObject)
 ```
 
 _params:_
 
-- streamId (string) - the ID associated with a stream (really the textile threadId)
+- streamEventId (string) - the ID associated with a stream (really the textile block ID)
 - comment ?
 
 _returns:_
