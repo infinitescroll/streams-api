@@ -1,4 +1,1 @@
-import Stream from './api'
-
-const stream = new Stream()
-stream.sendMessage()
+export { default as Stream } from './api'

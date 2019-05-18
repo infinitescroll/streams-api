@@ -1,5 +1,21 @@
 # Instructions
 
+## Developing an application using a local instance of streams-api
+
+As of now, we use a simple babel parser to transpile javascript. There is no hot-module-reloading.
+
+To compile the code:
+
+`npm run build`
+
+Make sure to run this command after every code update to see the change take effect
+
+Use `npm link`
+
+In the root of `streams-api` repository, run `npm link`
+
+In the same level of your directory as your `package.json`, run `npm link streams-api`
+
 #### Install
 
 `npm i -s streams-api`
@@ -141,18 +157,34 @@ _returns:_
 
 The streams API can provide event listeners to hear and react to different types of events
 
-## Developing an application using a local instance of streams-api
+## Invites
 
-As of now, we use a simple babel parser to transpile javascript. There is no hot-module-reloading.
+#### Send an invite to a peer
 
-To compile the code:
+```js
+const successfulInvite = await streamAPI.invite(streamId, peerId)
+```
 
-`npm run build`
+_params:_
 
-Make sure to run this command after every code update to see the change take effect
+- streamId (string) - the ID associated with a stream (really the textile threadId)
+- peerId (string) - the peerID to invite
 
-Use `npm link`
+_returns:_
 
-In the root of `streams-api` repository, run `npm link`
+- successfulInvite (bool) - true if invite was successfully sent
 
-In the same level of your directory as your `package.json`, run `npm link streams-api`
+#### Generate an external peer invite URL
+
+```js
+const inviteLink = await streamAPI.invite(streamId, peerId)
+```
+
+_params:_
+
+- streamId (string) - the ID associated with a stream (really the textile threadId)
+- peerId (string) - the peerID to invite
+
+_returns:_
+
+- inviteLink (string) - a one time URL the peerId can use to join a stream
