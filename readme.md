@@ -2,19 +2,16 @@
 
 ## Developing an application using a local instance of streams-api
 
-As of now, we use a simple babel parser to transpile javascript. There is no hot-module-reloading.
-
-To compile the code:
-
-`npm run build`
-
-Make sure to run this command after every code update to see the change take effect
-
-Use `npm link`
+Use `npm link`:
 
 In the root of `streams-api` repository, run `npm link`
 
-In the same level of your directory as your `package.json`, run `npm link streams-api`
+In the same level of your directory as your `package.json`, run `npm link streams-api`.
+
+
+As of now, we use a simple babel parser to transpile javascript. There is no hot-module-reloading.
+
+Make sure to run `npm run build` after every code update to see the change take effect
 
 #### Install
 
@@ -70,11 +67,11 @@ const newStream = await streamAPI.createStream(streamName, streamType)
 _params:_
 
 - streamName (string): The name of the stream
-- streamType (string): The type of stream (one of `'public'`, or `'private'`)
+- streamType (string): The type of stream (one of `'shared', 'public'`, or `'private'`)
 
 _returns:_
 
-- a stream object (object)
+- a stream object (object) (see bottom of readme for stream object example)
 
 ## Fetching data
 
