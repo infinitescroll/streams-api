@@ -1,5 +1,6 @@
 import { Textile } from '@textile/js-http-client'
 import { ensureTruthyString } from './utils'
+import { determineThreadConfig, ensureValidStreamType } from './textile-helpers'
 
 const defaultTextileConfig = {
   url: 'http://127.0.0.1',
@@ -11,24 +12,26 @@ const defaultTextileConfig = {
   }
 }
 
-class Stream {
+class StreamAPI {
   constructor(config) {
     this.textile = new Textile(config || defaultTextileConfig)
-    this.createStream = this.createStream.bind(this)
   }
 
-  createStream = async (streamName, streamType = 'public') => {
+  createStream = async (streamName, streamType = 'private') => {
     ensureTruthyString(streamName, 'streamName')
     ensureTruthyString(streamType, 'streamType')
-    if (streamType !== 'public' && streamType !== 'private') {
-      throw new Error('streamType must be "public" or "private"')
-    }
+    ensureValidStreamType(streamType)
 
-    const blob = await this.textile.schemas.defaults()
-    console.log('blob!', blob)
-    // const schema = await textile.schemas.add(blob)
-    // const thread = await textile.threads.add(thread_key, schema.id, thread_key, 'public', 'invite_only')
+    try {
+      const { blob } = await this.textile.schemas.defaults()
+      const { hash } = await this.textile.schemas.add(blob)
+      const { type, sharing } = determineThreadConfig(streamType)
+      // LINE LIKELY TO CHANGE with https://github.com/textileio/go-textile/issues/694
+      return this.textile.threads.add(streamName, hash, null, type, sharing)
+    } catch (error) {
+      throw new Error(`Error creating thread: ${error}`)
+    }
   }
 }
 
-export default Stream
+export default StreamAPI

@@ -1,9 +1,8 @@
 import { StreamAPI } from './'
 
-const exampleOne = async () => {
+const createStream = async () => {
   const streamAPI = new StreamAPI()
-  console.log(this)
-  // const createdStream = await streamAPI.createStream('test', 'public')
+  const createdStream = await streamAPI.createStream('test', 'public')
 }
 
-exampleOne()
+createStream()

@@ -49,7 +49,19 @@ The default config is your local textile node.
 
 ## Create a Stream:
 
-Note - this is very simple on purpose - because this api interface will not have to change when the [new role based](https://github.com/textileio/go-textile/issues/694) thread access control is implemented
+Note - this is very simple on purpose - because this api interface will not have to change when the [new role based](https://github.com/textileio/go-textile/issues/694) thread access control is implemented.
+
+Types of streams we support and what they mean:
+
+- private - only you can read, write, comment, and invite others to the stream. Upon inviting another peer, you can specify what permissions they have.
+- public - Anyone can read and comment, but only invitees can write and invite others
+- shared - permissionless stream (everyone has all capabilities)
+
+For simplicity's sake and an initial implementation, here's how the params passed in for streamType align with textile thread sharing permissions down into Textile:
+
+shared ==> _type:_ 'open', _sharing:_ 'shared'
+public ==> _type:_ 'public', _sharing:_ 'invite_only'
+private ==> _type:_ 'private', _sharing:_ 'invite_only'
 
 ```js
 const newStream = await streamAPI.createStream(streamName, streamType)
@@ -190,3 +202,41 @@ _params:_
 _returns:_
 
 - inviteLink (string) - a one time URL the peerId can use to join a stream
+
+## Example Objects
+
+#### Stream
+
+```js
+{
+  id: '12D3KooWNMh7RHQZL9SdtCX9B1KMACGa2PtaEy8TDjvYMsKirFWZ',
+  key: '1LPR4WmTea8kgWXmdWMCPd7G8EQ',
+  sk:
+    'CAESQLkpiNfnP1E1xcho5ch68/FtUqHq2XD5K2+jFyDSrpptulKqr+IIIBACd/Fdx+jsnf/oCOrG7426bbUy/z7i8KI=',
+  name: 'test',
+  schema: 'QmQn4hHm42sou9YFWSCAsmHJ7kCAf2cXU9TXQTxS5CLdvL',
+  initiator: 'P8titHG6A1mTbWR2XpTvBfigcAWiiKJWWC69Za6W3nax6Jxu',
+  type: 'PUBLIC',
+  sharing: 'INVITE_ONLY',
+  whitelist: [],
+  state: 'LOADED',
+  head: 'QmYPa9qYvpBusix8FCFNS6FPZ7PU2Ve2Dt4qe2ykzGxvff',
+  head_block:
+    {
+      id: 'QmYPa9qYvpBusix8FCFNS6FPZ7PU2Ve2Dt4qe2ykzGxvff',
+      thread: '12D3KooWNMh7RHQZL9SdtCX9B1KMACGa2PtaEy8TDjvYMsKirFWZ',
+      author: '12D3KooWRSAs7PnrN4pnbemMgnPqrBPXYDEMdacmxyrwcTZ6hhvp',
+      type: 'JOIN',
+      date: '2019-05-18T13:52:34.145196Z',
+      parents: [],
+      user:
+        {
+          address: 'P8titHG6A1mTbWR2XpTvBfigcAWiiKJWWC69Za6W3nax6Jxu',
+          name: 'P8titHG'
+        }
+    },
+  schema_node: { name: 'blob', pin: true, mill: '/blob' },
+  block_count: 1,
+  peer_count: 1
+}
+```
