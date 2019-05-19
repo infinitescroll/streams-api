@@ -69,6 +69,19 @@ class StreamAPI {
       throw new Error(`Error getting your file data: ${error}`)
     }
   }
+
+  getFileFromBlock = async blockId => {
+    ensureTruthyString(blockId)
+    let block
+    try {
+      block = await this.textile.blocks.get(blockId)
+    } catch (error) {
+      throw new Error(`Error finding the block: ${blockId}, error: ${error}`)
+    }
+
+    if (block.type !== 'FILES')
+      throw new Error(`${blockId} is not a FILES block`)
+  }
 }
 
 export default StreamAPI

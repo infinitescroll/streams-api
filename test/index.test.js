@@ -2,7 +2,13 @@ import fs from 'fs'
 import path from 'path'
 import StreamAPI from '../dist'
 import randomStreamName from './randomStreamName'
-const { createStream, getStreamEvents, addFile, getFile } = new StreamAPI()
+const {
+  createStream,
+  getStreamEvents,
+  addFile,
+  getFile,
+  getFileFromBlock
+} = new StreamAPI()
 
 describe('createStream', () => {
   test('throws an error if streamName is not a truthy string', async () => {
@@ -149,6 +155,40 @@ describe('getFile', () => {
       const buffer = fileContent[Object.getOwnPropertySymbols(fileContent)[1]]
       expect(Buffer.isBuffer(buffer)).toBe(true)
       expect(buffer.equals(file)).toBe(true)
+      done()
+    })
+  })
+})
+
+describe('getFileFromBlock', () => {
+  test.skip('it throws an error if blockId is not a truthy string', async () => {
+    await expect(getFileFromBlock('')).rejects.toThrow()
+    await expect(getFileFromBlock(null)).rejects.toThrow()
+    await expect(getFileFromBlock({})).rejects.toThrow()
+    await expect(getFileFromBlock()).rejects.toThrow()
+    await expect(getFileFromBlock(false)).rejects.toThrow()
+    await expect(getFileFromBlock(0)).rejects.toThrow()
+    await expect(getFileFromBlock(2)).rejects.toThrow()
+  })
+
+  test.skip('it throws an error if block is not a FILES block', async () => {})
+
+  test.skip('it returns a file from the block', async done => {
+    const randomStream = randomStreamName()
+    const { id } = await createStream(randomStream)
+    const pathName = path.join(__dirname, 'mockObjects.js')
+    fs.readFile(pathName, async (err, file) => {
+      if (err) throw err
+      const fileName = 'sampleFileName'
+      const fileSize = '22kb'
+      const caption = 'i love writing tests!'
+      const result = await addFile(id, file, fileName, fileSize, caption)
+      console.log(result.files[0].file.hash)
+      const res = await getFileFromBlock(result.block)
+      // const fileContent = await getFile(files[0].file.hash)
+      // const buffer = fileContent[Object.getOwnPropertySymbols(fileContent)[1]]
+      // expect(Buffer.isBuffer(buffer)).toBe(true)
+      // expect(buffer.equals(file)).toBe(true)
       done()
     })
   })
