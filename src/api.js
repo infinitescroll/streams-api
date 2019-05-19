@@ -1,5 +1,5 @@
 import { Textile } from '@textile/js-http-client'
-import { ensureTruthyString } from './utils'
+import { ensureTruthyString, ensureBufferOrFormData } from './utils'
 import { determineThreadConfig, ensureValidStreamType } from './textile-helpers'
 
 const defaultTextileConfig = {
@@ -15,6 +15,18 @@ const defaultTextileConfig = {
 class StreamAPI {
   constructor(config) {
     this.textile = new Textile(config || defaultTextileConfig)
+  }
+
+  addFile = async (streamId, file, fileName, fileSize, caption) => {
+    ensureTruthyString(streamId, 'streamId')
+    ensureBufferOrFormData(file)
+    try {
+      const metadata = JSON.stringify({ fileName, fileSize, caption })
+      const streamEvent = await this.textile.files.add(file, metadata, streamId)
+      return streamEvent
+    } catch (error) {
+      throw new Error(`Error adding file to your stream: ${error}`)
+    }
   }
 
   createStream = async (streamName, streamType = 'private') => {

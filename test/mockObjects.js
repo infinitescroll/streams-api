@@ -27,3 +27,18 @@ export const mockStream = {
   block_count: 1,
   peer_count: 1
 }
+
+export const mockStreamEvent = {
+  block: 'QmSrgoqxryH89rdLT3GcgG5CTz6sELNVNAL55SQxGkJ9PM',
+  target: 'QmcEh3akxehXGegjzkh13C366EWEFUxeUabqxeHfMznoTX',
+  date: '2019-05-19T17:28:27.039685Z',
+  user: {
+    address: 'P8titHG6A1mTbWR2XpTvBfigcAWiiKJWWC69Za6W3nax6Jxu',
+    name: 'P8titHG'
+  },
+  caption: 'caption',
+  files: [{ file: [Object] }],
+  comments: [],
+  likes: [],
+  threads: ['12D3KooWFNpGSMtKeLg1cdx4V2aipicxUbuy2sBwpqvcSNq2iP4X']
+}

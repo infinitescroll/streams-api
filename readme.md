@@ -122,17 +122,20 @@ _returns:_
 #### Add a new file to a stream
 
 ```js
-const updatedStream = await streamAPI.addFile(streamId, file)
+const updatedStream = await streamAPI.addFile(streamId, file, fileName, fileSize, caption)
 ```
 
 _params:_
 
 - streamId (string) - the ID associated with a stream (really the textile threadId)
-- file (buffer) - the file to add to a stream
+- file (buffer or formData) - the file to add to a stream
+- fileName (string)
+- fileSize (string)
+- caption (string)
 
 _returns:_
 
-- an updated stream object (object)
+- the new streamEvent object (object)
 
 #### Send a message in a stream
 
@@ -245,5 +248,25 @@ _returns:_
   schema_node: { name: 'blob', pin: true, mill: '/blob' },
   block_count: 1,
   peer_count: 1
+}
+```
+
+
+#### Stream Event
+
+```js
+{
+  block: 'QmSrgoqxryH89rdLT3GcgG5CTz6sELNVNAL55SQxGkJ9PM',
+  target: 'QmcEh3akxehXGegjzkh13C366EWEFUxeUabqxeHfMznoTX',
+  date: '2019-05-19T17:28:27.039685Z',
+  user: {
+    address: 'P8titHG6A1mTbWR2XpTvBfigcAWiiKJWWC69Za6W3nax6Jxu',
+    name: 'P8titHG'
+  },
+  caption: 'caption',
+  files: [{ file: [Object] }],
+  comments: [],
+  likes: [],
+  threads: ['12D3KooWFNpGSMtKeLg1cdx4V2aipicxUbuy2sBwpqvcSNq2iP4X']
 }
 ```
