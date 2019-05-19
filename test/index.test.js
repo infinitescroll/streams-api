@@ -1,8 +1,8 @@
 import StreamAPI from '../dist'
 import randomStreamName from './randomStreamName'
+const { createStream, getStreamEvents } = new StreamAPI()
 
 describe('createStream', () => {
-  const { createStream } = new StreamAPI()
   test('throws an error if streamName is not a truthy string', async () => {
     await expect(createStream(null, 'public')).rejects.toThrow()
     await expect(createStream(0, 'public')).rejects.toThrow()
@@ -37,5 +37,29 @@ describe('createStream', () => {
     expect(newStream).toHaveProperty('initiator')
 
     // TODO: add tests here to make sure right type of stream was instantiated based on passed in args
+  })
+})
+
+describe('getStreamEvents', () => {
+  test('throws an error if streamId is not a truthy string', async () => {
+    await expect(createStream('')).rejects.toThrow()
+    await expect(createStream(null)).rejects.toThrow()
+    await expect(createStream({})).rejects.toThrow()
+    await expect(createStream()).rejects.toThrow()
+    await expect(createStream(false)).rejects.toThrow()
+    await expect(createStream(0)).rejects.toThrow()
+    await expect(createStream(2)).rejects.toThrow()
+  })
+
+  test('returns a list of stream events', async () => {
+    const randomStream = randomStreamName()
+    const { id } = await createStream(randomStream)
+    const streamEvents = await getStreamEvents(id)
+    expect(Array.isArray(streamEvents)).toBe(true)
+    expect(streamEvents.length).toBe(1)
+    expect(streamEvents[0]).toHaveProperty('id')
+    expect(streamEvents[0]).toHaveProperty('thread')
+    expect(streamEvents[0]).toHaveProperty('author')
+    expect(streamEvents[0]).toHaveProperty('user')
   })
 })

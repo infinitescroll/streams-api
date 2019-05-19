@@ -32,6 +32,22 @@ class StreamAPI {
       throw new Error(`Error creating thread: ${error}`)
     }
   }
+
+  getStreams = async peerId => {
+    ensureTruthyString(peerId, 'peerId')
+    return
+    // https://github.com/textileio/docs/issues/74
+  }
+
+  getStreamEvents = async streamId => {
+    ensureTruthyString(streamId, 'streamId')
+    try {
+      const { items } = await this.textile.blocks.list(streamId)
+      return items
+    } catch (error) {
+      throw new Error(`Error getting stream events: ${error}`)
+    }
+  }
 }
 
 export default StreamAPI
