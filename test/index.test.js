@@ -53,16 +53,21 @@ describe('getStreamEvents', () => {
     await expect(createStream(2)).rejects.toThrow()
   })
 
-  test('returns a list of stream events', async () => {
+  test('returns a list of stream events', async done => {
     const randomStream = randomStreamName()
     const { id } = await createStream(randomStream)
-    const streamEvents = await getStreamEvents(id)
-    expect(Array.isArray(streamEvents)).toBe(true)
-    expect(streamEvents.length).toBe(1)
-    expect(streamEvents[0]).toHaveProperty('id')
-    expect(streamEvents[0]).toHaveProperty('thread')
-    expect(streamEvents[0]).toHaveProperty('author')
-    expect(streamEvents[0]).toHaveProperty('user')
+    const pathName = path.join(__dirname, 'mockObjects.js')
+    fs.readFile(pathName, async (err, file) => {
+      if (err) throw err
+      await addFile(id, file)
+      const streamEvents = await getStreamEvents(id)
+      expect(Array.isArray(streamEvents)).toBe(true)
+      expect(streamEvents.length).toBe(2)
+      expect(streamEvents[0]).toHaveProperty('block')
+      expect(streamEvents[0]).toHaveProperty('thread')
+      expect(streamEvents[0]).toHaveProperty('payload')
+      done()
+    })
   })
 })
 

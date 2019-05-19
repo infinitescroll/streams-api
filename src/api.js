@@ -51,10 +51,10 @@ class StreamAPI {
     // https://github.com/textileio/docs/issues/74
   }
 
-  getStreamEvents = async streamId => {
+  getStreamEvents = async (streamId, start = 0, limit = 100000) => {
     ensureTruthyString(streamId, 'streamId')
     try {
-      const { items } = await this.textile.blocks.list(streamId)
+      const { items } = await this.textile.feed.list(streamId, start, limit)
       return items
     } catch (error) {
       throw new Error(`Error getting stream events: ${error}`)
