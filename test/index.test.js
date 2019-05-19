@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import StreamAPI from '../dist'
 import randomStreamName from './randomStreamName'
-const { createStream, getStreamEvents, addFile } = new StreamAPI()
+const { createStream, getStreamEvents, addFile, getFile } = new StreamAPI()
 
 describe('createStream', () => {
   test('throws an error if streamName is not a truthy string', async () => {
@@ -119,6 +119,36 @@ describe('addFile', () => {
       expect(typeof streamEvent.caption).toBe('string')
       const metadata = JSON.parse(streamEvent.caption)
       expect(metadata).toMatchObject({ fileName, fileSize, caption })
+      done()
+    })
+  })
+})
+
+describe('getFile', () => {
+  test('it throws an error if fileHash is not a truthy string', async () => {
+    await expect(getFile('')).rejects.toThrow()
+    await expect(getFile(null)).rejects.toThrow()
+    await expect(getFile({})).rejects.toThrow()
+    await expect(getFile()).rejects.toThrow()
+    await expect(getFile(false)).rejects.toThrow()
+    await expect(getFile(0)).rejects.toThrow()
+    await expect(getFile(2)).rejects.toThrow()
+  })
+
+  test('it returns the content of a file given a hash', async done => {
+    const randomStream = randomStreamName()
+    const { id } = await createStream(randomStream)
+    const pathName = path.join(__dirname, 'mockObjects.js')
+    fs.readFile(pathName, async (err, file) => {
+      if (err) throw err
+      const fileName = 'sampleFileName'
+      const fileSize = '22kb'
+      const caption = 'i love writing tests!'
+      const { files } = await addFile(id, file, fileName, fileSize, caption)
+      const fileContent = await getFile(files[0].file.hash)
+      const buffer = fileContent[Object.getOwnPropertySymbols(fileContent)[1]]
+      expect(Buffer.isBuffer(buffer)).toBe(true)
+      expect(buffer.equals(file)).toBe(true)
       done()
     })
   })

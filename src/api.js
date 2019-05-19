@@ -60,6 +60,15 @@ class StreamAPI {
       throw new Error(`Error getting stream events: ${error}`)
     }
   }
+
+  getFile = async fileHash => {
+    ensureTruthyString(fileHash)
+    try {
+      return this.textile.file.content(fileHash)
+    } catch (error) {
+      throw new Error(`Error getting your file data: ${error}`)
+    }
+  }
 }
 
 export default StreamAPI

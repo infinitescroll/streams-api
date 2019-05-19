@@ -117,6 +117,34 @@ _returns:_
 
 - an array of stream comments (array)
 
+#### Get a file
+
+```js
+const streamEvents = await streamAPI.getFile(fileHash)
+```
+
+_params:_
+
+- fileHash (string) - the hash of a file
+
+_returns:_
+
+- the file (a buffer)
+
+#### Get all comments associated with a particular stream event
+
+```js
+const streamEvents = await streamAPI.getComments(streamEventId)
+```
+
+_params:_
+
+- streamEventId (string) - the hash associated with a stream event (really the textile block hash)
+
+_returns:_
+
+- an array of stream comments (array)
+
 ## Adding data to streams
 
 #### Add a new file to a stream
