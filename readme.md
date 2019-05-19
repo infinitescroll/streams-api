@@ -28,8 +28,7 @@ const streamAPI = new StreamAPI()
 The `StreamAPI` constructor takes an optional `textile config` object to overwrite the default:
 
 ```js
-// local textile config
-const config = {
+const textileConfig = {
   url: 'http://127.0.0.1',
   port: 40600,
   config: {
@@ -39,7 +38,7 @@ const config = {
   }
 }
 
-const streamAPI = new StreamAPI(config)
+const streamAPI = new StreamAPI(textileConfig)
 ```
 
 The default config is your local textile node.
